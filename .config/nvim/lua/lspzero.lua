@@ -38,3 +38,5 @@ vim.lsp.config('jsonls', {})
 vim.lsp.config('bashls', {})
 vim.lsp.config('html', {})
 vim.lsp.config('cssls', {})
+
+lsp.setup()

@@ -1,0 +1,6 @@
+nvim
+tmux
+fzf
+ripgrep
+tree-sitter-cli
+npm

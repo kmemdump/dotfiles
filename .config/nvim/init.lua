@@ -51,9 +51,9 @@ require('lazy').setup({
         branch = 'v2.x',
         dependencies = {
             -- LSP Support
-            { 'neovim/nvim-lspconfig' },             -- Required
-            { 'williamboman/mason.nvim' },           -- Optional
-            { 'williamboman/mason-lspconfig.nvim' }, -- Optional
+            { 'neovim/nvim-lspconfig' },              -- Required
+            { 'williamboman/mason.nvim' },            -- Optional
+            { 'williamboman/mason-lspconfig.nvim', }, -- Optional
 
             -- Autocompletion
             { 'hrsh7th/nvim-cmp' },     -- Required
@@ -75,6 +75,7 @@ require('lazy').setup({
     {
         "ThePrimeagen/refactoring.nvim",
         dependencies = {
+            "lewis6991/async.nvim",
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
         },
@@ -89,7 +90,7 @@ require('lazy').setup({
         tag = '0.1.5',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
-    { 'norcalli/nvim-colorizer.lua' },
+    { 'catgoose/nvim-colorizer.lua' },
     {
         'echasnovski/mini.nvim',
         version = '*',
@@ -146,6 +147,19 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
+require("mason").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        "lua_ls",
+        --     "rust_analyzer",
+        "html",
+        "cssls",
+        "ts_ls",
+        "jsonls",
+        "bashls",
+        --      "gopls",
+    }
+})
 require('nvimcmp')
 require('treesitter')
 require('lspzero')
