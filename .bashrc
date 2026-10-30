@@ -109,6 +109,7 @@ shopt -s expand_aliases
 shopt -s histappend
 
 set -o vi
+set enable-bracketed-paste off
 
 if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
 	tmux attach -t default || tmux new -s default
