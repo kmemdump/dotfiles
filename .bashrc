@@ -46,6 +46,12 @@ esac
 
 use_color=true
 
+parse_git_branch() {
+	git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+export PS1="\u@\h \[\e[32m\]\w \[\e[91m\]\$(parse_git_branch)\[\e[00m\]$ "
+
+
 # Set colorful PS1 only on colorful terminals.
 # dircolors --print-database uses its own built-in database
 # instead of using /etc/DIR_COLORS.  Try to use the external file
@@ -70,11 +76,7 @@ if ${use_color} ; then
 		fi
 	fi
 
-	if [[ ${EUID} == 0 ]] ; then
-		PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
-	else
-		PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
-	fi
+PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]\[\033[01;31m\]$(parse_git_branch)\[\033[01;32m\]]\$\[\033[00m\] '
 
 	alias ls='ls --color=auto'
 	alias grep='grep --colour=auto'
