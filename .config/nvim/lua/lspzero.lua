@@ -20,7 +20,8 @@ lsp.format_on_save({
         ['ts_ls'] = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
         ['jsonls'] = { "json", "jsonc" },
         ['bashls'] = { "sh" },
-        ['gopls'] = { "go", "gomod", "gowork", "gotmpl" }
+        ['gopls'] = { "go", "gomod", "gowork", "gotmpl" },
+        ['clangd'] = { "c", "h", "cpp" }
         -- if you have a working setup with null-ls
         -- you can specify filetypes it can format.
         -- ['null-ls'] = {'javascript', 'typescript'},
@@ -31,7 +32,9 @@ lsp.format_on_save({
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-vim.lsp.config('lua_ls', {})
+vim.lsp.config('lua_ls',
+    { settings = { Lua = { diagnostics = { globals = { 'vim' } } } } }
+)
 vim.lsp.config('gopls', {})
 vim.lsp.config('ts_ls', {})
 vim.lsp.config('jsonls', {})

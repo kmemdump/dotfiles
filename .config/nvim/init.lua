@@ -35,6 +35,18 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 
+vim.api.nvim_create_autocmd('CursorHold', {
+    callback = function()
+        vim.diagnostic.open_float(nil, {
+            focus = false,
+            scope = 'line',
+        })
+    end,
+})
+
+-- Adjust how fast CursorHold triggers (default is 4000ms, 250ms is snappier)
+vim.o.updatetime = 250
+
 vim.opt.rtp:prepend(lazypath)
 
 -- Example using a list of specs with the default options
@@ -194,6 +206,7 @@ require("mason-lspconfig").setup({
         "ts_ls",
         "jsonls",
         "bashls",
+        "clangd",
         --      "gopls",
     }
 })

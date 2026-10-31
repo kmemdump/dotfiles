@@ -31,5 +31,5 @@ gacp(){
 }
 
 ocs(){
-    opencode --session $(opencode session list | fzf | awk '{print $1}')
+    opencode mini --session $(opencode session list | fzf | awk '{print $1}')
 }
