@@ -87,8 +87,10 @@ require('lazy').setup({
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.5',
-        dependencies = { 'nvim-lua/plenary.nvim' }
+        version = '*',
+        dependencies = { 'nvim-lua/plenary.nvim',
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        }
     },
     { 'catgoose/nvim-colorizer.lua' },
     {
@@ -105,6 +107,37 @@ require('lazy').setup({
             "nvim-tree/nvim-web-devicons",
         }
     },
+    {
+        'dmtrKovalenko/fff',
+        build = function()
+            -- downloads a prebuilt binary or falls back to cargo build
+            require("fff.download").download_or_build_binary()
+        end,
+        -- for nixos:
+        -- build = "nix run .#release",
+        opts = {
+            debug = {
+                enabled = true,
+                show_scores = true,
+            },
+        },
+        lazy = false, -- the plugin lazy-initialises itself
+        keys = {
+            { "ff", function() require('fff').find_files() end, desc = 'FFFind files' },
+            { "fg", function() require('fff').live_grep() end,  desc = 'LiFFFe grep' },
+            {
+                "fz",
+                function() require('fff').live_grep({ grep = { modes = { 'fuzzy', 'plain' } } }) end,
+                desc = 'Live fffuzy grep',
+            },
+            {
+                "fw",
+                function() require('fff').live_grep_under_cursor() end,
+                mode = { 'n', 'x' },
+                desc = 'Search current word / selection',
+            },
+        },
+    }
 })
 
 -- Setup Plugins
@@ -137,7 +170,11 @@ require("telescope").load_extension('harpoon')
 local telescope = require('telescope')
 telescope.setup {
     defaults = {
-        layout_strategy = "vertical"
+        layout_strategy = "vertical",
+        layout_config = {
+            vertical = {
+                preview_cutoff = 0,
+            } },
     },
 }
 
