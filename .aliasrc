@@ -11,10 +11,6 @@ alias view='nvim -R'
 alias clip-tmux='tmux showb | xclip -sel c -i'
 alias fvi='vi $(fzf)'
 
-gacp(){
-    git add . && git commit -m "gacp" && git push 
-}
-
 fzh() {
 	history | sed 's/^[\s 0-9]*//' | fzf
 }
@@ -27,3 +23,10 @@ fvf() {
 
 # git
 alias gittree='git log --oneline --decorate --all --graph'
+alias fgb='git checkout $(git branch | fzf)'
+
+gacp(){
+    git add . && git commit -m "gacp" && git push 
+}
+
+
