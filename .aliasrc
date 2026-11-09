@@ -11,6 +11,7 @@ alias view='nvim -R'
 alias clip-tmux='tmux showb | xclip -sel c -i'
 alias cpc='fc -ln -1 | xclip -sel clip'
 alias fvi='vi $(fzf)'
+alias open='xdg-open'
 
 fzh() {
 	history | sed 's/^[\s 0-9]*//' | fzf
