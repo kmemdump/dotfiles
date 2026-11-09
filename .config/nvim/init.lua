@@ -64,12 +64,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         -- Sync textwidth to match the colorcolumn value
         local cc = vim.wo.colorcolumn
         if cc ~= "" and tonumber(cc) then
+            -- Save the current cursor position
+            local save_cursor = vim.fn.getpos(".")
             local original_tw = vim.bo.textwidth
             vim.bo.textwidth = tonumber(cc)
             -- Reformat the entire file to the new width
             vim.cmd("normal! gggqG")
             -- Restore original textwidth if you don't want it persisting
             vim.bo.textwidth = original_tw
+            -- Restore the cursor position
+            vim.fn.setpos(".", save_cursor)
         end
     end,
 })
