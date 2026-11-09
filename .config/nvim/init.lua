@@ -11,7 +11,7 @@ set errorbells
 set noswapfile
 set scrolloff=8
 set signcolumn=yes
-set colorcolumn=100
+set colorcolumn=120
 set nowrap
 ]])
 
@@ -75,6 +75,13 @@ vim.api.nvim_create_autocmd("BufWritePre", {
             -- Restore the cursor position
             vim.fn.setpos(".", save_cursor)
         end
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "markdown", "text" },
+    callback = function()
+        vim.opt_local.colorcolumn = "80"
     end,
 })
 
