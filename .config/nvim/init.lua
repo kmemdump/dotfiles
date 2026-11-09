@@ -10,13 +10,12 @@ set incsearch
 set errorbells
 set noswapfile
 set scrolloff=8
-set colorcolumn=120
 set signcolumn=yes
-set colorcolumn=80
+set colorcolumn=100
+set nowrap
 ]])
 
 -- set ignorecase smartcase
--- set nowrap
 
 vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct
 
@@ -35,6 +34,7 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 
+-- Autocommands
 vim.api.nvim_create_autocmd('CursorHold', {
     callback = function()
         vim.diagnostic.open_float(nil, {
@@ -43,12 +43,39 @@ vim.api.nvim_create_autocmd('CursorHold', {
         })
     end,
 })
-
 -- Adjust how fast CursorHold triggers (default is 4000ms, 250ms is snappier)
 vim.o.updatetime = 250
 
-vim.opt.rtp:prepend(lazypath)
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = function()
+        -- Save the current cursor position
+        local save_cursor = vim.fn.getpos(".")
+        -- Remove trailing whitespace
+        vim.cmd([[%s/\s\+$//e]])
+        -- Restore the cursor position
+        vim.fn.setpos(".", save_cursor)
+    end,
+})
 
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = function()
+        -- Sync textwidth to match the colorcolumn value
+        local cc = vim.wo.colorcolumn
+        if cc ~= "" and tonumber(cc) then
+            local original_tw = vim.bo.textwidth
+            vim.bo.textwidth = tonumber(cc)
+            -- Reformat the entire file to the new width
+            vim.cmd("normal! gggqG")
+            -- Restore original textwidth if you don't want it persisting
+            vim.bo.textwidth = original_tw
+        end
+    end,
+})
+
+-- Lazy Plugins
+vim.opt.rtp:prepend(lazypath)
 -- Example using a list of specs with the default options
 
 -- List Plugins
@@ -189,7 +216,6 @@ telescope.setup {
             } },
     },
 }
-
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
