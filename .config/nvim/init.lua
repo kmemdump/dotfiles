@@ -19,6 +19,18 @@ set nowrap
 
 vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct
 
+-- Register filetypes
+vim.filetype.add({
+    filename = {
+        ['.clang-format'] = 'yaml',
+        ['.prettierrc']   = 'yaml', -- Extra example: Prettier configs can also be YAML
+    },
+    -- If you want to match a pattern rather than an exact filename:
+    -- pattern = {
+    --   ['.*/.github/workflows/.*%.txt'] = 'yaml',
+    -- },
+})
+
 -- Mappings
 vim.keymap.set('n', '<Leader>q', '<cmd>enew<bar>bd #<CR>')
 
@@ -46,42 +58,48 @@ vim.api.nvim_create_autocmd('CursorHold', {
 -- Adjust how fast CursorHold triggers (default is 4000ms, 250ms is snappier)
 vim.o.updatetime = 250
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*",
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "markdown", "text" },
     callback = function()
-        -- Save the current cursor position
-        local save_cursor = vim.fn.getpos(".")
-        -- Remove trailing whitespace
-        vim.cmd([[%s/\s\+$//e]])
-        -- Restore the cursor position
-        vim.fn.setpos(".", save_cursor)
+        vim.opt_local.colorcolumn = "80"
     end,
 })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
     callback = function()
+        -- Only proceed if there are no active LSP clients attached to this buffer
+        local active_clients = vim.lsp.get_clients({ bufnr = 0 })
+        if #active_clients > 0 then
+            return
+        end
+
         -- Sync textwidth to match the colorcolumn value
         local cc = vim.wo.colorcolumn
         if cc ~= "" and tonumber(cc) then
-            -- Save the current cursor position
-            local save_cursor = vim.fn.getpos(".")
+            -- Save the entire window view (scroll state + cursor position)
+            local view = vim.fn.winsaveview()
             local original_tw = vim.bo.textwidth
             vim.bo.textwidth = tonumber(cc)
             -- Reformat the entire file to the new width
             vim.cmd("normal! gggqG")
             -- Restore original textwidth if you don't want it persisting
             vim.bo.textwidth = original_tw
-            -- Restore the cursor position
-            vim.fn.setpos(".", save_cursor)
+            -- Restore the view
+            vim.fn.winrestview(view)
         end
     end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "markdown", "text" },
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
     callback = function()
-        vim.opt_local.colorcolumn = "80"
+        -- Save the entire window view (scroll state + cursor position)
+        local view = vim.fn.winsaveview()
+        -- Remove trailing whitespace
+        vim.cmd([[%s/\s\+$//e]])
+        -- Restore the view
+        vim.fn.winrestview(view)
     end,
 })
 
@@ -244,6 +262,7 @@ require("mason-lspconfig").setup({
         "cssls",
         "ts_ls",
         "jsonls",
+        "yamlls",
         "bashls",
         "clangd",
         --      "gopls",
