@@ -117,8 +117,6 @@ fi
 
 # shellcheck disable=1091, 1090
 source ~/.aliasrc
-# shellcheck disable=1091, 1090
-source ~/.functionrc
 # shellcheck disable=1091
 export HISTFILE=~/.bash_history
 # shellcheck disable=1091, 1090
