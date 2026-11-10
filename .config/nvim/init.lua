@@ -69,7 +69,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*",
+    pattern = { "markdown", "text" },
     callback = function()
         -- Only proceed if there are no active LSP clients attached to this buffer
         local active_clients = vim.lsp.get_clients({ bufnr = 0 })
