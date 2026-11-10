@@ -28,9 +28,17 @@ alias gittree='git log --oneline --decorate --all --graph'
 alias gb='git checkout $(git branch | fzf)'
 
 gacp(){
-    git add . && git commit -m "gacp" && git push 
+    git add . && git commit -m "gacp" && git push
 }
 
 ocs(){
     opencode mini --session $(opencode session list | fzf | awk '{print $1}')
+}
+
+disable-sleep(){
+    sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+}
+
+enable-sleep(){
+    sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
 }

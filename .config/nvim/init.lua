@@ -23,7 +23,10 @@ vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappin
 vim.filetype.add({
     filename = {
         ['.clang-format'] = 'yaml',
-        ['.prettierrc']   = 'yaml', -- Extra example: Prettier configs can also be YAML
+        ['.prettierrc']   = 'yaml',
+        ['.aliasrc']      = 'sh',
+        ['.bashrc']       = 'sh',
+        ['.envrc']        = 'sh',
     },
     -- If you want to match a pattern rather than an exact filename:
     -- pattern = {
