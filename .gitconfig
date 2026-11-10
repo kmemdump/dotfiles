@@ -5,3 +5,5 @@
 	autoSetupRemote = true
 [pull]
 	rebase = true
+[core]
+	editor = /usr/bin/nvim

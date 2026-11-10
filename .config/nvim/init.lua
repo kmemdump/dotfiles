@@ -265,6 +265,7 @@ require("mason-lspconfig").setup({
         "yamlls",
         "bashls",
         "clangd",
+        "marksman",
         --      "gopls",
     }
 })

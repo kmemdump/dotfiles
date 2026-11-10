@@ -22,7 +22,8 @@ lsp.format_on_save({
         ['bashls'] = { "sh" },
         ['gopls'] = { "go", "gomod", "gowork", "gotmpl" },
         ['clangd'] = { "c", "h", "cpp" },
-        ['yamlls'] = { "yml", "yaml" }
+        ['yamlls'] = { "yml", "yaml" },
+        ['marksman'] = { "md" }
         -- if you have a working setup with null-ls
         -- you can specify filetypes it can format.
         -- ['null-ls'] = {'javascript', 'typescript'},
