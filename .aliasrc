@@ -9,11 +9,11 @@ alias sleep='systemctl suspend'
 alias vi='nvim'
 alias view='nvim -R'
 alias clip-tmux='tmux showb | xclip -sel c -i'
+alias cpc='fc -ln -1 | xclip -sel clip'
 alias fvi='vi $(fzf)'
-
-gacp(){
-    git add . && git commit -m "gacp" && git push 
-}
+alias open='xdg-open'
+alias torlnk='npx torlnk'
+alias rc='source "$HOME/.bashrc"'
 
 fzh() {
 	history | sed 's/^[\s 0-9]*//' | fzf
@@ -27,3 +27,79 @@ fvf() {
 
 # git
 alias gittree='git log --oneline --decorate --all --graph'
+alias gb='git checkout $(git branch | fzf)'
+alias gs='git switch $(git branch | fzf)'
+alias g='git status'
+
+gacp(){
+    git add . && git commit -m "gacp" && git push
+}
+
+ocs(){
+    opencode mini --session $(opencode session list | fzf | awk '{print $1}')
+}
+
+disable-sleep(){
+    sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+}
+
+enable-sleep(){
+    sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+}
+
+# shellcheck disable=2148
+# ex - archive extractor
+# usage: ex <file>
+ex() {
+	if [ -f "$1" ]; then
+		case "$1" in
+		*.tar.bz2) tar xjf "$1" ;;
+		*.tar.gz) tar xzf "$1" ;;
+		*.bz2) bunzip2 "$1" ;;
+		*.rar) unrar x "$1" ;;
+		*.gz) gunzip "$1" ;;
+		*.tar) tar xf "$1" ;;
+		*.tbz2) tar xjf "$1" ;;
+		*.tgz) tar xzf "$1" ;;
+		*.zip) unzip "$1" ;;
+		*.Z) uncompress "$1" ;;
+		*.7z) 7z x "$1" ;;
+		*) echo "'$1' cannot be extracted via ex()" ;;
+		esac
+	else
+		echo "'$1' is not a valid file"
+	fi
+}
+
+# Show bash color codes alongside their color codes
+colors() {
+	local fgc bgc vals seq0
+
+	printf "Color escapes are %s\n" "\e[${value};...;${value}m"
+	printf "Values 30..37 are \e[33mforeground colors\e[m\n"
+	printf "Values 40..47 are \e[43mbackground colors\e[m\n"
+	printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
+
+	# foreground colors
+	for fgc in {30..37}; do
+		# background colors
+		for bgc in {40..47}; do
+			fgc=${fgc#37} # white
+			bgc=${bgc#40} # black
+
+			vals="${fgc:+$fgc;}${bgc}"
+			vals=${vals%%;}
+
+			seq0="${vals:+\e[${vals}m}"
+			printf "  %-9s" "${seq0:-(default)}"
+			printf " ${seq0}TEXT\e[m"
+			printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
+		done
+		echo
+		echo
+	done
+}
+
+pgrep-info() { pgrep "$@" | xargs --no-run-if-empty ps fp; }
+
+pgrep-kill() { pgrep "$@" | xargs -n1 kill; }

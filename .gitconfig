@@ -1,0 +1,9 @@
+[user]
+	email = krishenm@gmail.com
+	name = Krishen Mohan
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[core]
+	editor = /usr/bin/nvim
