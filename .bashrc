@@ -121,4 +121,4 @@ export HISTFILE=~/.bash_history
 # shellcheck disable=1091, 1090
 source ~/.envrc
 
-source <(cdhist -i)
+source <(cdhist -i "cd -uF \"fzf --preview 'eza --color=always -lF {} 2>/dev/null'\"")
