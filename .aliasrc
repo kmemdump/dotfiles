@@ -27,6 +27,8 @@ fvf() {
 # git
 alias gittree='git log --oneline --decorate --all --graph'
 alias gb='git checkout $(git branch | fzf)'
+alias gs='git switch $(git branch | fzf)'
+alias g='git status'
 
 gacp(){
     git add . && git commit -m "gacp" && git push
