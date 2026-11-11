@@ -208,7 +208,7 @@ require('lazy').setup({
                 desc = 'Search current word / selection',
             },
         },
-    }
+    },
 })
 
 -- Setup Plugins
