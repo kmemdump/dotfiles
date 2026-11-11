@@ -100,7 +100,6 @@ unset use_color safe_term match_lhs sh
 # it regains control.  #65623
 # http://cnswww.cns.cwru.edu/~chet/bash/FAQ (E11)
 shopt -s checkwinsize
-
 shopt -s expand_aliases
 
 # export QT_SELECT=4
@@ -121,3 +120,5 @@ source ~/.aliasrc
 export HISTFILE=~/.bash_history
 # shellcheck disable=1091, 1090
 source ~/.envrc
+
+source <(cdhist -i)

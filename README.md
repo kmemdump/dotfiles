@@ -2,17 +2,18 @@
 
 Dot all the files
 
-
 ## Installing
 
 - Run ./install.sh
-- Install packages using pkglist.txt
 
 ### pacman
 
-pacman -S - < pkglist.txt
+`sudo pacman -S - < pkglist`
 
-- Install tmux plugin manager
+### tmux plugin manager
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
+### AUR
+
+`yay -S - < aurlist`
