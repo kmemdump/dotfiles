@@ -69,14 +69,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "markdown", "text" },
+    pattern = "*",
     callback = function()
-        -- Only proceed if there are no active LSP clients attached to this buffer
-        local active_clients = vim.lsp.get_clients({ bufnr = 0 })
-        if #active_clients > 0 then
+        local ft = vim.bo.filetype
+        if ft ~= "markdown" and ft ~= "text" then
             return
         end
-
         -- Sync textwidth to match the colorcolumn value
         local cc = vim.wo.colorcolumn
         if cc ~= "" and tonumber(cc) then
@@ -114,6 +112,8 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     { 'morhetz/gruvbox' },
     { 'folke/tokyonight.nvim' },
+    { 'rebelot/kanagawa.nvim' },
+    { 'sainnhe/everforest' },
     { 'folke/which-key.nvim' },
     { 'folke/neoconf.nvim',   cmd = 'Neoconf' },
     { 'folke/neodev.nvim' },
@@ -215,7 +215,12 @@ require('lazy').setup({
 
 ---- Color Scheme
 vim.opt.termguicolors = true
-vim.cmd.colorscheme('gruvbox')
+
+vim.g.everforest_background = 'hard'
+vim.g.everforest_transparent_background = 1
+vim.g.everforest_better_performance = 1
+vim.o.background = 'dark'
+vim.cmd.colorscheme('everforest')
 
 require('neoconf').setup({
     -- override any of the default settings here
