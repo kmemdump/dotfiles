@@ -30,6 +30,11 @@ alias gittree='git log --oneline --decorate --all --graph'
 alias gb='git checkout $(git branch | fzf)'
 alias gs='git switch $(git branch | fzf)'
 alias g='git status'
+alias ga='git add .'
+alias gp='git push'
+alias gpl='git pull'
+alias gf='git fetch origin'
+alias gc='git commit -m '
 
 gacp(){
     git add . && git commit -m "gacp" && git push
