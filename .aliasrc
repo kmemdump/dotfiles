@@ -12,7 +12,6 @@ alias clip-tmux='tmux showb | xclip -sel c -i'
 alias cpc='fc -ln -1 | xclip -sel clip'
 alias fvi='vi $(fzf)'
 alias open='xdg-open'
-alias torlnk='npx torlnk'
 alias rc='source "$HOME/.bashrc"'
 
 fzh() {
